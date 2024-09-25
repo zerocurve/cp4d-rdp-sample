@@ -2,8 +2,8 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   labels:
-    app.kubernetes.io/created-by: kuberay-operator
-    app.kubernetes.io/name: kuberay
+    app.kubernetes.io/created-by: ray-app
+    app.kubernetes.io/name: ray-app
     ray.io/cluster: ray-large
     ray.io/identifier: ray-large-head
     ray.io/node-type: head
