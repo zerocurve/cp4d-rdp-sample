@@ -34,7 +34,6 @@ spec:
         affinity: {}
         containers:
         - image: image-registry.openshift-image-registry.svc:5000/wld-cl/ray:2.9.3
-          #- image: quay.io/avitui/ray2_3_0-py38-cpu-tf2_7_4
           imagePullPolicy: Always
           name: ray-head
           resources:
