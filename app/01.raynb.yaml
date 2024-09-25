@@ -19,10 +19,6 @@ data:
     c = get_config()
     c.NotebookApp.password = 'sha1:aae8550c0a44:9507d45e087d5ee481a5ce9f4f16f37a0867318c'
 
-    # jupyter.extraConfig follows below
-    # Extra Jupyter config goes here
-    # E.g
-    # c.NotebookApp.port = 8888
 ---
 # Source: ray/templates/ray-jupyter-serviceaccount.yaml
 kind: Role
@@ -43,7 +39,6 @@ rules:
   resources: ["pods/log"]
   verbs: ["get", "list"]
 ---
-# Source: ray/templates/ray-jupyter-serviceaccount.yaml
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -120,12 +115,8 @@ spec:
         - name: raynb-ray-jupyter
           image: "image-registry.openshift-image-registry.svc:5000/wld-cl/ray:2.9.3"
           imagePullPolicy: Always
-            #securityContext:
-            #allowPrivilegeEscalation: true
-            #runAsUser: 0
           ports:
             - containerPort: 8888
-              #command: ["/bin/bash", "-c", "/opt/app-root/bin/start-notebook.sh"]
           command: ["/bin/bash", "-c", "/home/ray/anaconda3/bin/jupyter notebook $NOTEBOOK_ARGS"]
           resources:
             {}
@@ -143,7 +134,7 @@ spec:
                                 --ServerApp.quit_button=False
                                 --ServerApp.open_browser=False
             - name: JUPYTER_IMAGE
-              value: quay.io/erikerlandson/ray-ml-ubi:py-3.8-ray-1.4.0            
+              value: image-registry.openshift-image-registry.svc:5000/wld-cl/ray:2.9.3          
             - name: NB_PREFIX
               value: /notebook/test/testwb
             - name: RAY_CLIENT_MODE
