@@ -1,0 +1,99 @@
+apiVersion: ray.io/v1
+kind: RayCluster
+metadata:
+  labels:
+    app.kubernetes.io/instance: ray3
+    icpdata_run_id: {{.RUN_ID}}
+    icpdsupport/organizationId: "{{.zenOrganizationId}}"
+    icpdsupport/organizationName: "{{.zenOrganizationName}}"
+    icpdsupport/dataPlaneId: "{{.zenDataplaneId}}"
+    icpdsupport/dataPlaneName: "{{.zenDataplaneName}}"
+    icpdsupport/physicalLocationId: "{{.zenPhysicalLocationId}}"
+    icpdsupport/physicalLocationName: "{{.zenPhysicalLocationName}}"
+    icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
+  name: ray-large
+spec:
+  headGroupSpec:
+    rayStartParams:
+      dashboard-host: 0.0.0.0
+    serviceType: ClusterIP
+    template:
+      metadata:
+        annotations: {}
+        labels:
+          app.kubernetes.io/instance: ray3
+          icpdata_run_id: {{.RUN_ID}}
+          icpdsupport/organizationId: "{{.zenOrganizationId}}"
+          icpdsupport/organizationName: "{{.zenOrganizationName}}"
+          icpdsupport/dataPlaneId: "{{.zenDataplaneId}}"
+          icpdsupport/dataPlaneName: "{{.zenDataplaneName}}"
+          icpdsupport/physicalLocationId: "{{.zenPhysicalLocationId}}"
+          icpdsupport/physicalLocationName: "{{.zenPhysicalLocationName}}"
+          icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
+      spec:
+        affinity: {}
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/wld-cl/ray:2.9.3
+          #- image: quay.io/avitui/ray2_3_0-py38-cpu-tf2_7_4
+          imagePullPolicy: Always
+          name: ray-head
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2G
+            requests:
+              cpu: 10m
+              memory: 2G
+          securityContext: {}
+          volumeMounts:
+          - mountPath: /tmp/ray
+            name: log-volume
+        imagePullSecrets: []
+        nodeSelector: {}
+        tolerations: []
+        volumes:
+        - emptyDir: {}
+          name: log-volume
+  workerGroupSpecs:
+  - groupName: workergroup
+    maxReplicas: 4
+    minReplicas: 4
+    numOfHosts: 1
+    rayStartParams: {}
+    replicas: 1
+    template:
+      metadata:
+        annotations: {}
+        labels:
+          app.kubernetes.io/instance: ray3
+          icpdata_run_id: {{.RUN_ID}}
+          icpdsupport/organizationId: "{{.zenOrganizationId}}"
+          icpdsupport/organizationName: "{{.zenOrganizationName}}"
+          icpdsupport/dataPlaneId: "{{.zenDataplaneId}}"
+          icpdsupport/dataPlaneName: "{{.zenDataplaneName}}"
+          icpdsupport/physicalLocationId: "{{.zenPhysicalLocationId}}"
+          icpdsupport/physicalLocationName: "{{.zenPhysicalLocationName}}"
+          icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
+      spec:
+        affinity: {}
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/wld-cl/ray:2.9.3
+          imagePullPolicy: Always
+          name: ray-worker
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1G
+            requests:
+              cpu: 10m
+              memory: 1G
+          securityContext: {}
+          volumeMounts:
+          - mountPath: /tmp/ray
+            name: log-volume
+        imagePullSecrets: []
+        nodeSelector: {}
+        tolerations: []
+        volumes:
+        - emptyDir: {}
+          name: log-volume

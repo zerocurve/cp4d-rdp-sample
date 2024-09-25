@@ -1,0 +1,158 @@
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: ray-jupyter
+  labels:
+    app: ray
+    component: jupyter
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: raynb-ray-jupyter-config
+  labels:
+    app: ray
+    component: jupyter
+data:
+  jupyter_notebook_config.py: |
+    c = get_config()
+    c.NotebookApp.password = 'sha1:aae8550c0a44:9507d45e087d5ee481a5ce9f4f16f37a0867318c'
+
+    # jupyter.extraConfig follows below
+    # Extra Jupyter config goes here
+    # E.g
+    # c.NotebookApp.port = 8888
+---
+# Source: ray/templates/ray-jupyter-serviceaccount.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ray-jupyter
+  labels:
+    app: ray
+    component: jupyter
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "update", "patch"]
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods/log"]
+  verbs: ["get", "list"]
+---
+# Source: ray/templates/ray-jupyter-serviceaccount.yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ray-jupyter
+  labels:
+    app: ray
+    component: jupyter
+subjects:
+- kind: ServiceAccount
+  name: ray-jupyter
+roleRef:
+  kind: Role
+  name: ray-jupyter
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: raynb-ray-jupyter
+  labels:
+    app: ray
+    component: jupyter
+spec:
+  ports:
+    - name: raynb-ray-jupyter
+      port: 80
+      targetPort: 8888
+  selector:
+    app: ray
+    release: "raynb"
+    component: jupyter
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: raynb-ray-jupyter
+  labels:
+    app: ray
+    component: jupyter
+    icpdata_run_id: {{.RUN_ID}}
+    icpdsupport/organizationId: "{{.zenOrganizationId}}"
+    icpdsupport/organizationName: "{{.zenOrganizationName}}"
+    icpdsupport/dataPlaneId: "{{.zenDataplaneId}}"
+    icpdsupport/dataPlaneName: "{{.zenDataplaneName}}"
+    icpdsupport/physicalLocationId: "{{.zenPhysicalLocationId}}"
+    icpdsupport/physicalLocationName: "{{.zenPhysicalLocationName}}"
+    icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ray
+      release: "raynb"
+      component: jupyter
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ray
+        release: "raynb"
+        component: jupyter
+        icpdata_run_id: {{.RUN_ID}}
+        icpdsupport/organizationId: "{{.zenOrganizationId}}"
+        icpdsupport/organizationName: "{{.zenOrganizationName}}"
+        icpdsupport/dataPlaneId: "{{.zenDataplaneId}}"
+        icpdsupport/dataPlaneName: "{{.zenDataplaneName}}"
+        icpdsupport/physicalLocationId: "{{.zenPhysicalLocationId}}"
+        icpdsupport/physicalLocationName: "{{.zenPhysicalLocationName}}"
+        icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
+    spec:
+      containers:
+        - name: raynb-ray-jupyter
+          image: "image-registry.openshift-image-registry.svc:5000/wld-cl/ray:2.9.3"
+          imagePullPolicy: Always
+            #securityContext:
+            #allowPrivilegeEscalation: true
+            #runAsUser: 0
+          ports:
+            - containerPort: 8888
+              #command: ["/bin/bash", "-c", "/opt/app-root/bin/start-notebook.sh"]
+          command: ["/bin/bash", "-c", "/home/ray/anaconda3/bin/jupyter notebook $NOTEBOOK_ARGS"]
+          resources:
+            {}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/local/etc/jupyter
+          env:
+            - name: NOTEBOOK_ARGS
+              value: |-
+                --ServerApp.port=8888
+                                --ServerApp.ip='*'
+                                --ServerApp.token=''
+                                --ServerApp.password=''
+                                --ServerApp.base_url=/notebook/test/testwb
+                                --ServerApp.quit_button=False
+                                --ServerApp.open_browser=False
+            - name: JUPYTER_IMAGE
+              value: quay.io/erikerlandson/ray-ml-ubi:py-3.8-ray-1.4.0            
+            - name: NB_PREFIX
+              value: /notebook/test/testwb
+            - name: RAY_CLIENT_MODE
+              value: '1'
+            - name: RAY_CLUSTER
+              value: 'http://ray-cluster-smoketest-ray-head'
+      volumes:
+        - name: config-volume
+          configMap:
+            name: raynb-ray-jupyter-config
+      serviceAccountName: "ray-jupyter"
+---

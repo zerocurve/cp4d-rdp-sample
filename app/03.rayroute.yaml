@@ -1,0 +1,37 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app.kubernetes.io/created-by: kuberay-operator
+    app.kubernetes.io/name: kuberay
+    ray.io/cluster: ray-large
+    ray.io/identifier: ray-large-head
+    ray.io/node-type: head
+  name: ray-large-head-svc
+spec:
+  host: ray-large.apps.cpd-aws.cp.fyre.ibm.com
+  port:
+    targetPort: dashboard
+  to:
+    kind: Service
+    name: ray-large-head-svc
+    weight: 100
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: ray
+    component: jupyter
+  name: raynb-ray-jupyter
+spec:
+  host: raynb-large.apps.cpd-aws.cp.fyre.ibm.com
+  port:
+    targetPort: raynb-ray-jupyter
+  to:
+    kind: Service
+    name: raynb-ray-jupyter
+    weight: 100
+  wildcardPolicy: None
+
