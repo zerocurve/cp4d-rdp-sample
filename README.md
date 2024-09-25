@@ -59,3 +59,6 @@ Cloud pak for data admin can open the monitor page and switch to the dataplane, 
 
 Remote Data Planes Application feature allow the Cloud Pak for Data platform to extend beyond the traditional one OpenShift cluster to span across multiple clusters both on-premises and in the cloud as one instance for a hybrid experience. This innovation brings the third party workload on the central cloud pak for data platform and runs on remote clusters.
 
+For more information:
+
+[Remote dataplane ](https://www.ibm.com/docs/en/cloud-paks/cp-data/5.0.x?topic=architecture-remote-physical-locations) 
