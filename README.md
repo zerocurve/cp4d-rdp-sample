@@ -17,15 +17,17 @@ Remote data plane allows users to bring their own workloads on the platform. The
 # how to use the example
 ## pre-requisite setup
 The setup and configuration first starts with creating the physical locations on the remote OpenShift cluster and then defining the remote data plane using the physical location.
-Physical Location
+- Physical Location
 The setup of the physical locations is handled using command line tools that creates and registers the physical location. The first step is to install the Cloud Pak for Data management agent at the physical location in a namespace. This is lightweight agent that uses a smaller footprint than a complete Cloud Pak for Data instance. The second step is to ra egister the physical location to establish mutual trust between physical location and the Cloud Pak for Data control plane. For more details and instructions please refer Setting up the remote physical location for IBM Cloud Pak for Data in the documentation.
-Data Plane
+- Data Plane
 After the remote physical locations are setup, the Cloud Pak for Data platform administrator can proceed to create the data planes using the Cloud Pak for Data control plane console. One or more remote physical locations can be assigned to a data plane. In the Configurations and Settings page the administrator can view the physical locations registered and manage data planes in the respective tabs.
 
 ## setup the kuberay operator
 CPD admin need deploy the kuberay operator to drive the ray application deployment. Follow the kuberay guide below to deploy the ray operator in every physical location cluster.
 
 https://github.com/ray-project/kuberay
+
+The example ray images located in docker.io/liujunf/ray:2.9.3 to bring up the application, you can either mirror the images into private repo or update the yaml file to use the image directly.
 
 ## package the application
 Cloudpak for data user need download the repo code and package the application through following command:
