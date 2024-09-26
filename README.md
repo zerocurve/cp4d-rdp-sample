@@ -22,6 +22,11 @@ The setup of the physical locations is handled using command line tools that cre
 Data Plane
 After the remote physical locations are setup, the Cloud Pak for Data platform administrator can proceed to create the data planes using the Cloud Pak for Data control plane console. One or more remote physical locations can be assigned to a data plane. In the Configurations and Settings page the administrator can view the physical locations registered and manage data planes in the respective tabs.
 
+## setup the kuberay operator
+CPD admin need deploy the kuberay operator to drive the ray application deployment. Follow the kuberay guide below to deploy the ray operator in every physical location cluster.
+
+https://github.com/ray-project/kuberay
+
 ## package the application
 Cloudpak for data user need download the repo code and package the application through following command:
 
