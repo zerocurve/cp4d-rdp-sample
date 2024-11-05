@@ -8,8 +8,8 @@ Remote data plane allows users to bring their own workloads on the platform. The
 <img width="1115" alt="image" src="https://github.com/user-attachments/assets/5710f06b-0476-4293-8cbc-17d69872ba83">
 
 # This innovation brings several values for the Cloud Pak for Data platform:
-- One instance: consolidates and manages user workload (custom images, helm chart etc) via single cp4d hub and multiple spoke instances
-- Optimize resource management: run on-premises and burst to cloud when needed ( via user defined policies )
+- One instance: Consolidates and manages multiple user workloads (custom images, helm chart etc) from one single cp4d hub
+- Optimize resource management: Run on-premises and burst to cloud when needed ( via user defined policies )
 - Custom placement policies: Allows workload placement based on cluster availability, capacity and priorities. Additional policies planned for future.
 - Centralized monitoring: CP4D hub administrator can monitor all third party applications deploy through single panel class
 - Soft quota: CP4 hub administrator can put quota on third party applications, and enforce the quota in the future
