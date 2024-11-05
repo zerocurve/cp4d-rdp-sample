@@ -1,4 +1,4 @@
-# Cloudpak for Data Remote Dataplane Application
+# CP4D Remote Data Plane - Bring your own Apps (BYOA)
 
 ## Background
 Cloud Pak for Data platform introduced Remote Data Planes in 5.0. This new framework is now available in Cloud Pak for Data version 5.0. Remote Data Planes augments the Cloud Pak for Data platform to extend beyond the traditional OpenShift cluster to span across multiple clusters both on-premises and in the cloud as one instance for a hybrid experience. This new framework removes the restriction of running workloads in just one location, where users can choose to run the workloads closer to the data source in a different location all under one instance. Users can now create a workload definition on the Cloud Pak for Data control plane and deploy them to a remote data plane. This innovation brings the processing capabilities to the data for data gravity, and at the same time meets data regulations and compliance for data sovereignty, which reduces the need to transfer data
