@@ -8,13 +8,15 @@ Remote data plane allows users to bring their own workloads on the platform. The
 <img width="1115" alt="image" src="https://github.com/user-attachments/assets/5710f06b-0476-4293-8cbc-17d69872ba83">
 
 # This innovation brings several values for the Cloud Pak for Data platform:
-- One instance: consolidates user workload on the single cp4d instance
-- Optimize resource management: run on-premises and scale out to the cloud
-- Centralize monitoring: Cloudpak for data administrator now can centralize monitor the third party application through monitor page
-- Soft quota: Cloudpak for data administrator can put quota on thirdparty app, and enforce the quota in the future
+- One instance: consolidates and manages user workload (custom images, helm chart etc) via single cp4d hub and multiple spoke instances
+- Optimize resource management: run on-premises and burst to cloud when needed ( via user defined policies )
+- Custom placement policies: Allows workload placement based on cluster availability, capacity and priorities. Additional policies planned for future.
+- Centralized monitoring: CP4D hub administrator can monitor all third party applications deploy through single panel class
+- Soft quota: CP4 hub administrator can put quota on third party applications, and enforce the quota in the future
 - Integrated User management: Cloudpak for data platform as central platform for user to launch their applications.
+- Scope and Security: isolate third party workloads for easier observerablity and lifecycle management and compliance.
 
-# how to use the example
+# How to use the example
 ## pre-requisite setup
 The setup and configuration first starts with creating the physical locations on the remote OpenShift cluster and then defining the remote data plane using the physical location.
 
