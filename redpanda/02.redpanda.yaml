@@ -58,7 +58,7 @@ spec:
           icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
         spec:
           securityContext:
-            runAsUser: 1000740000       # Arbitrary non-root UID
+            runAsUser: 1000740000    
             runAsGroup: 1000740000
             fsGroup: 1000740000
             runAsNonRoot: true
@@ -84,12 +84,12 @@ spec:
         icpdsupport/physicalLocationName: "{{.zenPhysicalLocationName}}"
         icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
       podSecurityContext:
-        runAsUser: 1000740000       # Arbitrary non-root UID
+        runAsUser: 1000740000     
         runAsGroup: 1000740000
         fsGroup: 1000740000
         runAsNonRoot: true
       securityContext:
-        runAsUser: 1000740000       # Arbitrary non-root UID
+        runAsUser: 1000740000    
         runAsGroup: 1000740000
         fsGroup: 1000740000
         runAsNonRoot: true
