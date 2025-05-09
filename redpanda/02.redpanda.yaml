@@ -1,0 +1,96 @@
+apiVersion: cluster.redpanda.com/v1alpha2
+kind: Redpanda
+metadata:
+  name: remotepanda
+  labels:
+    app.kubernetes.io/instance: Redpanda
+    icpdata_run_id: {{.RUN_ID}}
+    icpdsupport/organizationId: "{{.zenOrganizationId}}"
+    icpdsupport/organizationName: "{{.zenOrganizationName}}"
+    icpdsupport/dataPlaneId: "{{.zenDataplaneId}}"
+    icpdsupport/dataPlaneName: "{{.zenDataplaneName}}"
+    icpdsupport/physicalLocationId: "{{.zenPhysicalLocationId}}"
+    icpdsupport/physicalLocationName: "{{.zenPhysicalLocationName}}"
+    icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
+spec:
+  chartRef: {}
+  clusterSpec:
+    commonLabels:
+      app.kubernetes.io/instance: Redpanda
+      icpdata_run_id: {{.RUN_ID}}
+      icpdsupport/organizationId: "{{.zenOrganizationId}}"
+      icpdsupport/organizationName: "{{.zenOrganizationName}}"
+      icpdsupport/dataPlaneId: "{{.zenDataplaneId}}"
+      icpdsupport/dataPlaneName: "{{.zenDataplaneName}}"
+      icpdsupport/physicalLocationId: "{{.zenPhysicalLocationId}}"
+      icpdsupport/physicalLocationName: "{{.zenPhysicalLocationName}}"
+      icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
+    enterprise:
+      licenseSecretRef:
+        name: redpanda-license
+        key: license
+    statefulset:
+      securityContext:
+        runAsUser: 1000740000       # Arbitrary non-root UID
+        runAsGroup: 1000740000
+        fsGroup: 1000740000
+        runAsNonRoot: true
+      initContainers:
+        securityContext:
+          runAsUser: 1000740000
+          runAsGroup: 1000740000
+          fsGroup: 1000740000
+          privilege: false
+          runAsNonRoot: true
+          capabilities:
+            drop:
+              - ALL
+      podTemplate:
+        labels:
+          app.kubernetes.io/instance: Redpanda
+          icpdata_run_id: {{.RUN_ID}}
+          icpdsupport/organizationId: "{{.zenOrganizationId}}"
+          icpdsupport/organizationName: "{{.zenOrganizationName}}"
+          icpdsupport/dataPlaneId: "{{.zenDataplaneId}}"
+          icpdsupport/dataPlaneName: "{{.zenDataplaneName}}"
+          icpdsupport/physicalLocationId: "{{.zenPhysicalLocationId}}"
+          icpdsupport/physicalLocationName: "{{.zenPhysicalLocationName}}"
+          icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
+        spec:
+          securityContext:
+            runAsUser: 1000740000       # Arbitrary non-root UID
+            runAsGroup: 1000740000
+            fsGroup: 1000740000
+            runAsNonRoot: true
+    console:
+      commonLabels:
+        app.kubernetes.io/instance: Redpanda
+        icpdata_run_id: {{.RUN_ID}}
+        icpdsupport/organizationId: "{{.zenOrganizationId}}"
+        icpdsupport/organizationName: "{{.zenOrganizationName}}"
+        icpdsupport/dataPlaneId: "{{.zenDataplaneId}}"
+        icpdsupport/dataPlaneName: "{{.zenDataplaneName}}"
+        icpdsupport/physicalLocationId: "{{.zenPhysicalLocationId}}"
+        icpdsupport/physicalLocationName: "{{.zenPhysicalLocationName}}"
+        icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
+      podLabels:
+        app.kubernetes.io/instance: Redpanda
+        icpdata_run_id: {{.RUN_ID}}
+        icpdsupport/organizationId: "{{.zenOrganizationId}}"
+        icpdsupport/organizationName: "{{.zenOrganizationName}}"
+        icpdsupport/dataPlaneId: "{{.zenDataplaneId}}"
+        icpdsupport/dataPlaneName: "{{.zenDataplaneName}}"
+        icpdsupport/physicalLocationId: "{{.zenPhysicalLocationId}}"
+        icpdsupport/physicalLocationName: "{{.zenPhysicalLocationName}}"
+        icpdsupport/cloudpakInstanceId: "{{.zenCloudPakInstanceId}}"
+      podSecurityContext:
+        runAsUser: 1000740000       # Arbitrary non-root UID
+        runAsGroup: 1000740000
+        fsGroup: 1000740000
+        runAsNonRoot: true
+      securityContext:
+        runAsUser: 1000740000       # Arbitrary non-root UID
+        runAsGroup: 1000740000
+        fsGroup: 1000740000
+        runAsNonRoot: true
+
